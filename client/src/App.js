@@ -92,7 +92,7 @@ export default function App() {
     if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
     
     let qURL = encodeURIComponent(imageURL);
-    let apiURL ='/get/image/?&url='+qURL;
+    let apiURL = '/get/image/?&url='+qURL;
 
     fetchGet(apiURL).then(data=>setImage(data['src']));
   };
@@ -103,7 +103,7 @@ export default function App() {
     if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
     
     let qURL = encodeURIComponent(imageURL);
-    let apiURL ='/get/image/square/?&url='+qURL;
+    let apiURL = '/get/image/square/?&url='+qURL;
 
     fetchGet(apiURL).then(data=>setImage(data['src']));
   };
@@ -114,7 +114,7 @@ export default function App() {
     if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
     
     let qURL = encodeURIComponent(imageURL);
-    let apiURL ='/get/image/pixelate/?&url='+qURL;
+    let apiURL = '/get/image/pixelate/?&url='+qURL;
 
     fetchGet(apiURL).then(data=>setImage(data['src']));
   };
