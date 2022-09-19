@@ -13,6 +13,11 @@ import './styles/main.scss';
     'https://i.scdn.co/image/ab6761610000e5eb8fcf922b8900b89a50575cc5',
   ];
 
+
+  const SERVERAPI = '/api';
+  const IMAGEMESHAPI = '/image-mesh/api';
+  const IMAGEMESHHOST = 'https://image-mesh-server.herokuapp.com/';
+
 export default function App() {
 
   const [sampleURLs] = useState(getSampleLinks()); 
@@ -32,6 +37,8 @@ export default function App() {
 
   useEffect(()=>{
    
+    fetchGet(SERVERAPI).then(data=>console.log(data));
+
     let initialURL = sampleURLs[0];
 
     setDefaultParams();
@@ -47,7 +54,7 @@ export default function App() {
   },[]);
   
  const setDefaultParams = () => {
-    let apiURL ='/get/params/';
+    let apiURL =IMAGEMESHAPI+'/get/params/';
 
     fetchGet(apiURL).then(data=>{      
       setImageHue(data['hue']);
@@ -83,7 +90,7 @@ export default function App() {
   const setImage = src => {
     setImageSrc(src);
     var img = document.getElementById('image-target');
-    img.src = src;
+    img.src = IMAGEMESHHOST+src;
   };
 
   const getUneditedImage = () => {
@@ -92,7 +99,7 @@ export default function App() {
     if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
     
     let qURL = encodeURIComponent(imageURL);
-    let apiURL = '/get/image/?&url='+qURL;
+    let apiURL = IMAGEMESHAPI+'/get/image/?&url='+qURL;
 
     fetchGet(apiURL).then(data=>setImage(data['src']));
   };
@@ -103,7 +110,7 @@ export default function App() {
     if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
     
     let qURL = encodeURIComponent(imageURL);
-    let apiURL = '/get/image/square/?&url='+qURL;
+    let apiURL = IMAGEMESHAPI+'/get/image/square/?&url='+qURL;
 
     fetchGet(apiURL).then(data=>setImage(data['src']));
   };
@@ -114,7 +121,7 @@ export default function App() {
     if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
     
     let qURL = encodeURIComponent(imageURL);
-    let apiURL = '/get/image/pixelate/?&url='+qURL;
+    let apiURL = IMAGEMESHAPI+'/get/image/pixelate/?&url='+qURL;
 
     fetchGet(apiURL).then(data=>setImage(data['src']));
   };
@@ -134,7 +141,7 @@ export default function App() {
     let qIsPixelated = encodeURIComponent(imageIsPixelated);
     let qIsSquare = encodeURIComponent(imageIsSquare);
     let apiURL =
-      '/get/image/edited/?&url='+qURL+'&hue='+qHue+'&saturation='+qSaturation+
+      IMAGEMESHAPI+'/get/image/edited/?&url='+qURL+'&hue='+qHue+'&saturation='+qSaturation+
       '&brightness='+qBrightness+'&contrast='+qContrast+'&pixelation='+
       qPixelation+'&isPixelated='+qIsPixelated+'&isSquare='+qIsSquare;
 
