@@ -1,0 +1,132 @@
+@import "mixins/mixins.scss";
+
+.form-section{
+  width: 100%;
+  min-width:500px;
+  max-width:1000px;
+  margin-right:auto;
+
+  .form-header{
+    height:40px;
+    width:100%;
+    display: flex;
+    align-items: flex-end;
+
+    .error-text{
+      margin-left: auto;
+      color:rgb(255,100,100);
+      padding-right: 15px;
+    }
+  }
+
+  .form-section-inner{
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 6px;
+    overflow: hidden;
+
+    .checkbox-section{
+      display: flex;
+      width:100%;
+
+      .form-input{
+        margin-right:20px;
+        width: calc(50% - 10px);
+        border-bottom: none;
+        border-radius: 6px;
+
+        .form-input-header{
+          min-width: 130px;
+        }
+        
+        &:last-child{
+          margin-right: 0;;
+        }
+      }
+    }
+
+    .form-input{
+      width: 100%;
+      height:50px;
+      display:flex;
+      border-bottom:1px solid white;
+      align-items: center;
+      transition-duration: 0.2s;
+      padding: 0 5px 0 10px;
+    
+      &:hover{
+        background:rgba(0,0,0,0.3);
+      }
+      
+      .material-icons{
+        margin-right:10px;
+        font-size: 18px;
+      }
+    
+      .form-input-header{
+        min-width:200px;
+        margin-right: auto;
+      }
+    
+      input[type=text],input[type=number]{
+        padding:10px;
+        width:100%;
+        background: none;
+        border:none;
+        color:white;
+        transition-duration: 0.2s;
+        text-align: end;
+        margin-left: 20px;
+      }
+    
+      input[type=checkbox] {
+        position: relative;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        margin-left: auto;
+        margin-right:10px;
+      }
+    
+      input[type=checkbox]:before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 0;
+        left: 0;
+        border: 1px solid white;
+        border-radius: 4px;
+        background-color: var(--background);
+      }
+    
+      input[type=checkbox]:checked:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 0;
+        left: 0;
+        border: 1px solid white;
+        border-radius: 4px;
+        background-color: rgb(144, 185, 238);
+      }
+    
+      input[type=checkbox]:checked:before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid white;
+        border-radius: 4px;
+        background: rgba(255,255,255,0);
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+    }
+  }
+}

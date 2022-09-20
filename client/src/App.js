@@ -1,13 +1,10 @@
-
 import React, { useState, useEffect } from "react";
-
 import TitleSection from "./components/comp-title-section";
 import ImageOutput from "./components/comp-image-output";
-
 import PreviewSection from "./components/comp-preview-section";
 import LinkSection from "./components/comp-link-section";
 import SubmitSection from "./components/comp-submit-section";
-
+import FormSection from "./components/comp-form-section";
 import './styles/main.scss';
 
 export default function App() {
@@ -47,7 +44,6 @@ export default function App() {
     fetchGet(apiCall).then(data => {
       setSampleURLs(data['links']);
       setImageURL(data['links'][0]);
-      document.getElementById('inputURL').value = data['links'][0];
     });
   };
   
@@ -62,23 +58,18 @@ export default function App() {
       setImagePixelation(data['pixelation']);
       setImageIsPixelated(data['isPixelated']);
       setImageIsSquare(data['isSquare']);
-      
-      document.getElementById('inputHue').value = data['hue'];
-      document.getElementById('inputSaturation').value = data['saturation'];
-      document.getElementById('inputContrast').value = data['contrast']*100;
-      document.getElementById('inputBrightness').value = data['brightness'];
-      document.getElementById('inputPixelation').value = data['pixelation'];
-      document.getElementById('inputIsPixelated').checked = data['isPixelated'];
-      document.getElementById('inputIsSquare').checked = data['isSquare'];
     });
   };
 
   const setInputVal = (key,val) => {
+    if(key==='URL')setImageURL(val);
     if(key==='Hue')setImageHue(val);
     if(key==='Saturation')setImageSaturation(val);
     if(key==='Brightness')setImageBrightness(val);
     if(key==='Contrast')setImageContrast(val);
     if(key==='Pixelation')setImagePixelation(val);
+    if(key==='IsPixelated')setImageIsPixelated(val);
+    if(key==='IsSquare')setImageIsSquare(val);
   };
 
   const fetchGet = async (url) => new Promise (resolve =>
@@ -112,64 +103,25 @@ export default function App() {
     });
   };
 
-
-
   return (
     <div className="App">  
       <div className="main-section top">   
         <div className="main-section-inner">     
           <TitleSection title='Image Mesh' subtitle='Used to edit photos and create pixel art'/> 
           <div className="image-section">
-            <div className="form-section">
-              <div className="form-header">
-                <h2>Edit Picture</h2>
-                {!isURLValid&&<p className="error-text">The URL below is not a valid image address</p>}
-              </div>
-              <div className="form-section-inner">
-                <div className="form-input">
-                  <span className="material-icons">portrait</span>
-                  <p className="form-input-header">Image URL:</p>
-                  <input type="text" id='inputURL' onChange={e=>setImageURL(e.target.value)}/>
-                </div>
-                <div className="form-input">
-                  <span className="material-icons">invert_colors</span>
-                  <p className="form-input-header">Hue (-100,100):</p>
-                  <input type='number' min='-100' max='100' id='inputHue' onChange={e=>setInputVal('Hue',e.target.value)}/>
-                </div>
-                <div className="form-input">
-                  <span className="material-icons">tonality</span>
-                  <p className="form-input-header">Saturation (-100,100):</p>
-                  <input type='number' min='-100' max='100' id='inputSaturation' onChange={e=>setInputVal('Saturation',e.target.value,-100,100)}/>
-                </div>
-                <div className="form-input">
-                  <span className="material-icons">light_mode</span>
-                  <p className="form-input-header">Brightness (-100,100):</p>
-                  <input type='number' min='-100' max='100' id='inputBrightness' onChange={e=>setInputVal('Brightness',e.target.value,-100,100)}/>
-                </div>
-                <div className="form-input">
-                  <span className="material-icons">contrast</span>
-                  <p className="form-input-header">Contrast (-100,100):</p>
-                  <input type='number' min='-100' max='100' id='inputContrast' onChange={e=>setInputVal('Contrast',e.target.value,-100,100)}/>
-                </div>
-                <div className="form-input">
-                  <span className="material-icons">deblur</span>
-                  <p className="form-input-header">Pixelation (0,100):</p>
-                  <input type='number' min='0' max='100' id='inputPixelation' onChange={e=>setInputVal('Pixelation',e.target.value,0,100)}/>
-                </div>
-                <div className="checkbox-section">
-                  <div className="form-input">
-                    <span className="material-icons">blur_on</span>
-                    <p className="form-input-header">Pixelate:</p>
-                    <input type="checkbox" id='inputIsPixelated' checked={imageIsPixelated} onChange={e=>setImageIsPixelated(e.target.checked)}/>
-                  </div>
-                  <div className="form-input">
-                    <span className="material-icons">crop_free</span>
-                    <p className="form-input-header">Crop Square:</p>
-                    <input type="checkbox" id='inputIsSquare' checked={imageIsSquare} onChange={e=>setImageIsSquare(e.target.checked)}/>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <FormSection 
+              title='Edit Picture'
+              isURLValid={isURLValid}
+              URL={imageURL}
+              hue={imageHue}
+              saturation={imageSaturation}
+              brightness={imageBrightness}
+              contrast={imageContrast}
+              pixelation={imagePixelation}
+              isPixelated={imageIsPixelated}
+              isSquare={imageIsSquare}
+              onChange={setInputVal}
+              />
             <ImageOutput imageSrc={imageSrc}/>
           </div>
           <PreviewSection
@@ -201,4 +153,4 @@ export default function App() {
   );
 }
 
-// separate into sub components, code cleanup, stylesheet cleanup, mobile styling, console cleanup
+// mobile styling, code cleanup, stylesheet cleanup, console cleanup
