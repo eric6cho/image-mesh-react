@@ -18,8 +18,8 @@ export default function PreviewSection(props) {
       {'icon':'light_mode','val':props.brightness},
       {'icon':'contrast','val':props.contrast},
       {'icon':'deblur','val':props.pixelation},
-      {'icon':'invert_colors','val':boolToStr(props.isPixelated)},
-      {'icon':'invert_colors','val':boolToStr(props.isSquare)},
+      {'icon':'blur_on','val':boolToStr(props.isPixelated)},
+      {'icon':'crop_free','val':boolToStr(props.isSquare)},
     ];
 
     setData(data);
@@ -29,19 +29,30 @@ export default function PreviewSection(props) {
 
   let component = 
     <div className="preview-section">
-      <div className="preview-bar">
-        <div className="image-preview">
-          <img id='image-preview' className={props.isURLValid?'':'no-image'} alt='preview' src={props.src}/>
+      <div className="preview-bar">        
+        
+
+        <div className="scrollable">    
+
+          <div className="image-preview">
+            <img id='image-preview' className={props.isURLValid?'':'no-image'} alt='preview' src={props.src}/>
+          </div>
+          
+          {
+      
+            !data?null:data.map((item,i)=>
+              <div key={i} className="text-preview">
+                <span className="material-icons">{item['icon']}</span>
+                <p>{item['val']}</p>
+              </div>
+            )
+          }
         </div>
-        {
-          !data?null:data.map((item,i)=>
-            <div key={i} className="text-preview">
-              <span className="material-icons">{item['icon']}</span>
-              <p>{item['val']}</p>
-            </div>
-          )
-        }
-        <div className="button reset" onClick={()=>props.clickReset()}>Reset Inputs</div>
+
+        <div className="button reset" onClick={()=>props.clickReset()}>  
+          <span className="material-icons">refresh</span>
+        </div>
+
       </div>
     </div>;
 

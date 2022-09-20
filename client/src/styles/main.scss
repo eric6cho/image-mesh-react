@@ -25,34 +25,94 @@ html{
         .main-section{
           display:flex;
           justify-content: center;
-          padding:100px;
+          padding:50px 25px;
 
           &.bottom{
             background:rgba(0,0,0,0.3);
           }
 
           .main-section-inner{
-            width:1000px; // change for mobility
+            width:100%; 
             display: flex;
             flex-direction: column;
 
             .title-section{
-              margin-bottom:100px;
+              margin-bottom:50px;
             }
 
             .image-section{
               width:100%;
               display:flex;
-              margin-bottom:100px;
+              flex-direction: column-reverse;
+              margin-bottom:20px;
             }
           }
           
           .link-section-outer{
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
           }
         }
       }
     }
   }
+}
+
+
+@include media-md{
+  html{
+    body {
+      #root{
+        .App{
+          .main-section{
+            padding:100px 0;
+
+            .main-section-inner{
+              width:600px; 
+
+              .title-section{
+                margin-bottom:100px;
+              }
+
+              .image-section{
+                margin-bottom:50px;
+              }
+            }
+            
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+@include media-xl{
+  html{
+    body {
+      #root{
+        .App{
+          .main-section{
+            padding:100px 0;
+  
+            .main-section-inner{
+              width:1000px; 
+
+              .image-section{
+                flex-direction: row;
+                margin-bottom:100px;
+              }
+
+              
+              .link-section-outer{
+                flex-direction: row;
+                justify-content: space-between;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
 }

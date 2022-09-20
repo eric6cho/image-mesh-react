@@ -2,16 +2,57 @@
 
 .submit-section{
   display: flex;
-
+  flex-direction: column;
+  width: 100%;
   .button{
     @include button();
     
     &.submit{
-      width:100%;
-      margin-right: 20px;
+      
+      margin: 0 0 20px 0;
 
-      &:last-child{
-        margin-right: 0;
+    }
+  }
+}
+
+@include media-md{
+  .submit-section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin:-10px;
+    width:calc(100% + 20px);
+  
+    .button{
+      @include button();
+      
+      &.submit{
+        width:225px;
+        margin: 10px;
+  
+      }
+    }
+  }
+}
+
+
+@include media-xl{
+  .submit-section{
+    display: flex;
+    flex-wrap: nowrap;
+    width:100%;
+    margin:0;
+  
+    .button{
+      @include button();
+      
+      &.submit{
+        width:100%;
+        margin:0 20px 0 0;
+  
+        &:last-child{
+          margin: 0;
+        }
       }
     }
   }

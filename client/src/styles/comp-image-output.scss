@@ -1,13 +1,14 @@
 @import "mixins/mixins.scss";
 
 .image-target{
-  margin-left:100px;
+  margin-bottom:50px;
   height:400px;
-  min-width:400px;
+  min-width:100%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 6px;
 
   img{
     width:auto;
@@ -17,7 +18,7 @@
     object-fit:contain;
     overflow: hidden;
     border-radius: 6px;
-    margin-left:auto;
+    margin:auto;
 
     &.no-image{
       display:none;
@@ -25,7 +26,35 @@
   }
 
   &.no-image{
-    border-radius: 6px;
     background:rgba(255,255,255,0.1);
+  }
+}
+
+@include media-md{
+    
+  .image-target{
+    height:400px;
+    min-width:400px;
+  }
+}
+
+@include media-xl{
+  .image-target{
+    margin-bottom: 0;
+    margin-left:100px;
+    height:400px;
+    min-width:400px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img{
+      
+      margin:0;
+      margin-left:auto;
+
+    }
+
   }
 }
