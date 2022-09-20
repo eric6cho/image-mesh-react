@@ -21,6 +21,8 @@ html{
 
       .App{
         position: relative;
+        background: rgb(40,45,55);
+        background: linear-gradient(0deg, rgba(40,45,55,1) 50%, rgba(62,71,89,1) 100%);
     
         .main-section{
           display:flex;
