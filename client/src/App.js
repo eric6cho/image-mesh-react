@@ -1,5 +1,8 @@
 
 import React, { useState, useEffect } from "react";
+
+import PreviewSection from "./components/comp-preview-section";
+
 import './styles/main.scss';
 
 export default function App() {
@@ -22,7 +25,6 @@ export default function App() {
   const [imageIsSquare,setImageIsSquare] = useState(false);
 
   useEffect(()=>{
-    setImagePreviewListener();
     setDefaultParams();
     setHost();
     setSampleLinks();
@@ -66,12 +68,6 @@ export default function App() {
     });
   };
 
-  const setImagePreviewListener = () => {
-    let imagePreview = document.getElementById('image-preview');
-    imagePreview.onerror = () => setIsURLValid(false);
-    imagePreview.onload = () => setIsURLValid(true);
-  };
-
   const setInputVal = (key,val) => {
     if(key==='Hue')setImageHue(val);
     if(key==='Saturation')setImageSaturation(val);
@@ -113,125 +109,106 @@ export default function App() {
 
   return (
     <div className="App">  
-      <div className="title-section">
-        <h1>Image Mesh</h1>
-        <p>Used to edit photos and create pixel art</p>
-      </div>
-      <div className="top-section">
-        <div className="input-section">
-          <div className="form-section">
-            <div className="form-header">
-              <h2>Edit Picture</h2>
-              {!isURLValid&&<p className="error-text">The URL below is not a valid image address</p>}
-            </div>
-            <div className="form-section-inner">
-              <div className="form-input">
-                <span className="material-icons">portrait</span>
-                <p className="form-input-header">Image URL:</p>
-                <input type="text" id='inputURL' onChange={e=>setImageURL(e.target.value)}/>
+      <div className="main-section top">   
+        <div className="main-section-inner">      
+          <div className="title-section">
+            <h1>Image Mesh</h1>
+            <p>Used to edit photos and create pixel art</p>
+          </div>
+          <div className="image-section">
+            <div className="form-section">
+              <div className="form-header">
+                <h2>Edit Picture</h2>
+                {!isURLValid&&<p className="error-text">The URL below is not a valid image address</p>}
               </div>
-              <div className="form-input">
-                <span className="material-icons">invert_colors</span>
-                <p className="form-input-header">Hue (-100,100):</p>
-                <input type='number' min='-100' max='100' id='inputHue' onChange={e=>setInputVal('Hue',e.target.value)}/>
-              </div>
-              <div className="form-input">
-                <span className="material-icons">tonality</span>
-                <p className="form-input-header">Saturation (-100,100):</p>
-                <input type='number' min='-100' max='100' id='inputSaturation' onChange={e=>setInputVal('Saturation',e.target.value,-100,100)}/>
-              </div>
-              <div className="form-input">
-                <span className="material-icons">light_mode</span>
-                <p className="form-input-header">Brightness (-100,100):</p>
-                <input type='number' min='-100' max='100' id='inputBrightness' onChange={e=>setInputVal('Brightness',e.target.value,-100,100)}/>
-              </div>
-              <div className="form-input">
-                <span className="material-icons">contrast</span>
-                <p className="form-input-header">Contrast (-100,100):</p>
-                <input type='number' min='-100' max='100' id='inputContrast' onChange={e=>setInputVal('Contrast',e.target.value,-100,100)}/>
-              </div>
-              <div className="form-input">
-                <span className="material-icons">deblur</span>
-                <p className="form-input-header">Pixelation (0,100):</p>
-                <input type='number' min='0' max='100' id='inputPixelation' onChange={e=>setInputVal('Pixelation',e.target.value,0,100)}/>
-              </div>
-              <div className="checkbox-section">
+              <div className="form-section-inner">
                 <div className="form-input">
-                  <span className="material-icons">blur_on</span>
-                  <p className="form-input-header">Pixelate:</p>
-                  <input type="checkbox" id='inputIsPixelated' checked={imageIsPixelated} onChange={e=>setImageIsPixelated(e.target.checked)}/>
+                  <span className="material-icons">portrait</span>
+                  <p className="form-input-header">Image URL:</p>
+                  <input type="text" id='inputURL' onChange={e=>setImageURL(e.target.value)}/>
                 </div>
                 <div className="form-input">
-                  <span className="material-icons">crop_free</span>
-                  <p className="form-input-header">Crop Square:</p>
-                  <input type="checkbox" id='inputIsSquare' checked={imageIsSquare} onChange={e=>setImageIsSquare(e.target.checked)}/>
+                  <span className="material-icons">invert_colors</span>
+                  <p className="form-input-header">Hue (-100,100):</p>
+                  <input type='number' min='-100' max='100' id='inputHue' onChange={e=>setInputVal('Hue',e.target.value)}/>
+                </div>
+                <div className="form-input">
+                  <span className="material-icons">tonality</span>
+                  <p className="form-input-header">Saturation (-100,100):</p>
+                  <input type='number' min='-100' max='100' id='inputSaturation' onChange={e=>setInputVal('Saturation',e.target.value,-100,100)}/>
+                </div>
+                <div className="form-input">
+                  <span className="material-icons">light_mode</span>
+                  <p className="form-input-header">Brightness (-100,100):</p>
+                  <input type='number' min='-100' max='100' id='inputBrightness' onChange={e=>setInputVal('Brightness',e.target.value,-100,100)}/>
+                </div>
+                <div className="form-input">
+                  <span className="material-icons">contrast</span>
+                  <p className="form-input-header">Contrast (-100,100):</p>
+                  <input type='number' min='-100' max='100' id='inputContrast' onChange={e=>setInputVal('Contrast',e.target.value,-100,100)}/>
+                </div>
+                <div className="form-input">
+                  <span className="material-icons">deblur</span>
+                  <p className="form-input-header">Pixelation (0,100):</p>
+                  <input type='number' min='0' max='100' id='inputPixelation' onChange={e=>setInputVal('Pixelation',e.target.value,0,100)}/>
+                </div>
+                <div className="checkbox-section">
+                  <div className="form-input">
+                    <span className="material-icons">blur_on</span>
+                    <p className="form-input-header">Pixelate:</p>
+                    <input type="checkbox" id='inputIsPixelated' checked={imageIsPixelated} onChange={e=>setImageIsPixelated(e.target.checked)}/>
+                  </div>
+                  <div className="form-input">
+                    <span className="material-icons">crop_free</span>
+                    <p className="form-input-header">Crop Square:</p>
+                    <input type="checkbox" id='inputIsSquare' checked={imageIsSquare} onChange={e=>setImageIsSquare(e.target.checked)}/>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className={'image-target '+(!imageSrc?'no-image':'')}>
-          <img id='image-target' className={!imageSrc?'no-image':''} alt='edited'/>
-        </div>
-      </div>
-      <div className="preview-section">
-        <div className="preview-bar">
-          <div className="image-preview">
-            <img id='image-preview' className={isURLValid?'':'no-image'} alt='preview' src={imageURL}/>
-          </div>
-          <div className="text-preview">
-            <span className="material-icons">invert_colors</span>
-            <p>{imageHue}</p>
-          </div>
-          <div className="text-preview">
-            <span className="material-icons">tonality</span>
-            <p>{imageSaturation}</p>
-          </div>
-          <div className="text-preview">
-            <span className="material-icons">light_mode</span>
-            <p>{imageBrightness}</p>
-          </div>
-          <div className="text-preview">
-            <span className="material-icons">contrast</span>
-            <p>{imageContrast}</p>
-          </div>
-          <div className="text-preview">
-            <span className="material-icons">deblur</span>
-            <p>{imagePixelation}</p>
-          </div>
-          <div className="text-preview">
-            <span className="material-icons">blur_on</span>
-            <p>{imageIsPixelated?'on':'off'}</p>
-          </div>
-          <div className="text-preview">
-            <span className="material-icons">crop_free</span>
-            <p>{imageIsSquare?'on':'off'}</p>            
-          </div>
-          <div className="reset-button" onClick={()=>setDefaultParams()}>Reset Inputs</div>
-        </div>
-      </div>
-      <div className="submit-section">
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage()}>Get Image</div>
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage('square')}>Crop Image</div>
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage('pixelate')}>Pixelate Image</div>
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage('edited')}>Edit Image</div>
-      </div>
-      <div className="bottom-section">
-        <div className="title-section">
-          <h2>Links</h2>
-          <p>Select an image link below to fill the url input in the form above</p>
-        </div>
-        <div className="link-section">
-          <div className="link-list-container">
-            <h3>Recent Image Links</h3>
-            <div className="link-list recent">
-              {recentURLs.map((url,i)=><div key={i} className='button link-button' onClick={()=>setImageURL(url)}><img src={url} alt={'icon'}/><p>{url}</p></div>)}
+            <div className={'image-target '+(!imageSrc?'no-image':'')}>
+              <img id='image-target' className={!imageSrc?'no-image':''} alt='edited'/>
             </div>
           </div>
-          <div className="link-list-container">
-            <h3>Sample Image Links</h3>
-            <div className="link-list">
-              {sampleURLs.map((url,i)=><div key={i} className='button link-button' onClick={()=>setImageURL(url)}><img src={url} alt={'icon'}/><p>{url}</p></div>)}
+          <PreviewSection
+            isURLValid={isURLValid}
+            src={imageURL}
+            hue={imageHue}
+            saturation={imageSaturation}
+            brightness={imageBrightness}
+            contrast={imageContrast}
+            pixelation={imagePixelation}
+            isPixelated={imageIsPixelated}
+            isSquare={imageIsSquare}
+            reset={setDefaultParams}
+            setIsURLValid={setIsURLValid}
+          /> 
+          <div className="submit-section">
+            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage()}>Get Image</div>
+            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage('square')}>Crop Image</div>
+            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage('pixelate')}>Pixelate Image</div>
+            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage('edited')}>Edit Image</div>
+          </div>
+        </div>
+      </div>
+      <div className="main-section bottom">
+        <div className="main-section-inner">
+          <div className="title-section">
+            <h2>Links</h2>
+            <p>Select an image link below to fill the url input in the form above</p>
+          </div>
+          <div className="link-section">
+            <div className="link-list-container">
+              <h3>Recent Image Links</h3>
+              <div className="link-list recent">
+                {recentURLs.map((url,i)=><div key={i} className='button link-button' onClick={()=>setImageURL(url)}><img src={url} alt={'icon'}/><p>{url}</p></div>)}
+              </div>
+            </div>
+            <div className="link-list-container">
+              <h3>Sample Image Links</h3>
+              <div className="link-list">
+                {sampleURLs.map((url,i)=><div key={i} className='button link-button' onClick={()=>setImageURL(url)}><img src={url} alt={'icon'}/><p>{url}</p></div>)}
+              </div>
             </div>
           </div>
         </div>

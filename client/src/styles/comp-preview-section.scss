@@ -1,0 +1,64 @@
+@import "mixins/mixins.scss";
+
+.preview-section{
+  margin-bottom: 20px;
+  display: flex;
+
+  .preview-bar{
+    height:50px;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    display:flex;
+    align-content: center;
+
+    .image-preview{
+      width:30px;
+      height:30px;
+      overflow: hidden;
+      margin:10px;
+      margin-right: auto;
+      border-radius: 3px;
+      background:rgba(255,255,255,0.1);
+
+      img{
+        width:100%;
+        height:100%;
+        object-fit: cover;
+
+        &.no-image{
+          display:none;
+        }
+      }
+    }
+
+    .text-preview{
+      height:30px;
+      margin:10px;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+
+      .material-icons{
+        margin-right:5px;
+        font-size: 20px;
+      }
+    }
+
+    .button{
+      @include button();
+
+      &.reset{
+        background: rgba(255,255,255,0);
+        border-radius: 0;
+        border:none;
+        border-left: 1px solid rgba(255,255,255,0.5);
+
+        &:hover{
+          background-color: rgba(255,100,100,0.2);
+        } 
+      }
+    }
+  }
+}
