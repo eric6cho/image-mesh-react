@@ -1,26 +1,12 @@
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import './styles/main.scss';
-
-  const getSampleLinks = () => [
-    'https://i.scdn.co/image/ab6761610000e5eb6ccb967cecc6f1da90fe355e',
-    'https://i.scdn.co/image/ab6761610000e5eb7da39dea0a72f581535fb11f',
-    'https://i.scdn.co/image/ab6761610000e5ebd969cf117d0b0d4424bebdc5',
-    'https://i.scdn.co/image/ab6761610000e5eb74855e013588fd276b25b337',
-    'https://i.scdn.co/image/ab6761610000e5eb8f0270ec23a53f3c1fe91849',
-    'https://i.scdn.co/image/ab6761610000e5ebb4c956981d00ad66e06792fa',
-    'https://i.scdn.co/image/ab6761610000e5ebd7c88b3403c3dba1dbcfaf92',
-    'https://i.scdn.co/image/ab6761610000e5eb8fcf922b8900b89a50575cc5',
-  ];
-
-
-  const SERVERAPI = '/api';
-  const IMAGEMESHAPI = '/image-mesh/api';
-  const IMAGEMESHHOST = 'https://image-mesh-server.herokuapp.com/';
 
 export default function App() {
 
-  const [sampleURLs] = useState(getSampleLinks()); 
+  const [imageHost,setImageHost] = useState('');
+
+  const [sampleURLs,setSampleURLs] = useState([]); 
   const [recentURLs,setRecentURLs] = useState([]); 
 
   const [imageURL,setImageURL] = useState(''); 
@@ -36,27 +22,32 @@ export default function App() {
   const [imageIsSquare,setImageIsSquare] = useState(false);
 
   useEffect(()=>{
-   
-    fetchGet(SERVERAPI).then(data=>console.log(data));
-
-    let initialURL = sampleURLs[0];
-
+    setImagePreviewListener();
     setDefaultParams();
-
-    setImageURL(initialURL);
-
-    document.getElementById('inputURL').value = initialURL;
-
-    let imagePreview = document.getElementById('image-preview');
-    imagePreview.onerror = () => setIsURLValid(false);
-    imagePreview.onload = () => setIsURLValid(true);
-
+    setHost();
+    setSampleLinks();
   },[]);
+
+  const setHost = () => {
+    let apiCall = '/api/get/image-host';
+
+    fetchGet(apiCall).then(data => setImageHost(data['url']));
+  };
+
+  const setSampleLinks = () => {
+    let apiCall = '/api/get/sample-links';
+
+    fetchGet(apiCall).then(data => {
+      setSampleURLs(data['links']);
+      setImageURL(data['links'][0]);
+      document.getElementById('inputURL').value = data['links'][0];
+    });
+  };
   
  const setDefaultParams = () => {
-    let apiURL =IMAGEMESHAPI+'/get/params/';
+    let apiCall = '/api/get/params/';
 
-    fetchGet(apiURL).then(data=>{      
+    fetchGet(apiCall).then(data=>{      
       setImageHue(data['hue']);
       setImageSaturation(data['saturation']);
       setImageContrast(data['contrast']*100);
@@ -75,6 +66,12 @@ export default function App() {
     });
   };
 
+  const setImagePreviewListener = () => {
+    let imagePreview = document.getElementById('image-preview');
+    imagePreview.onerror = () => setIsURLValid(false);
+    imagePreview.onload = () => setIsURLValid(true);
+  };
+
   const setInputVal = (key,val) => {
     if(key==='Hue')setImageHue(val);
     if(key==='Saturation')setImageSaturation(val);
@@ -84,70 +81,34 @@ export default function App() {
   };
 
   const fetchGet = async (url) => new Promise (resolve =>
-    fetch(url).then(res => res.json()).then(data => resolve(data))
-  );
+    fetch(url).then(res => res.json()).then(data => resolve(data)));
 
-  const setImage = src => {
-    setImageSrc(src);
-    var img = document.getElementById('image-target');
-    img.src = IMAGEMESHHOST+src;
-  };
-
-  const getUneditedImage = () => {
-    if(!isURLValid) return;
-    
-    if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
-    
-    let qURL = encodeURIComponent(imageURL);
-    let apiURL = IMAGEMESHAPI+'/get/image/?&url='+qURL;
-
-    fetchGet(apiURL).then(data=>setImage(data['src']));
-  };
-
-  const getSquareImage = () => {
-    if(!isURLValid) return;
-    
-    if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
-    
-    let qURL = encodeURIComponent(imageURL);
-    let apiURL = IMAGEMESHAPI+'/get/image/square/?&url='+qURL;
-
-    fetchGet(apiURL).then(data=>setImage(data['src']));
-  };
-
-  const getPixelatedImage = () => {
+  const getImage = (method='') => {
     if(!isURLValid) return;
 
-    if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
-    
-    let qURL = encodeURIComponent(imageURL);
-    let apiURL = IMAGEMESHAPI+'/get/image/pixelate/?&url='+qURL;
+    if(!recentURLs.includes(imageURL)) setRecentURLs([...recentURLs,imageURL]);
 
-    fetchGet(apiURL).then(data=>setImage(data['src']));
-  };
-
-  const getDefaultEditedImage = () => {
-    if(!isURLValid) return;
-
-    if(!recentURLs.includes(imageURL))setRecentURLs([...recentURLs, imageURL]);
-
-    let adjustedContrast = imageContrast/100; // contrast is from -1 to 1
+    let qMethod =encodeURIComponent(method);
     let qURL = encodeURIComponent(imageURL);
     let qHue = encodeURIComponent(imageHue);
     let qSaturation = encodeURIComponent(imageSaturation);
     let qBrightness = encodeURIComponent(imageBrightness);
-    let qContrast = encodeURIComponent(adjustedContrast);
+    let qContrast = encodeURIComponent(imageContrast/100);
     let qPixelation = encodeURIComponent(imagePixelation);
     let qIsPixelated = encodeURIComponent(imageIsPixelated);
     let qIsSquare = encodeURIComponent(imageIsSquare);
-    let apiURL =
-      IMAGEMESHAPI+'/get/image/edited/?&url='+qURL+'&hue='+qHue+'&saturation='+qSaturation+
-      '&brightness='+qBrightness+'&contrast='+qContrast+'&pixelation='+
-      qPixelation+'&isPixelated='+qIsPixelated+'&isSquare='+qIsSquare;
+    
+    let apiCall = 
+      'api/get/image/?&method='+qMethod+'&url='+qURL+
+      '&hue='+qHue+'&saturation='+qSaturation+'&brightness='+qBrightness+
+      '&contrast='+qContrast+'&pixelation='+qPixelation+
+      '&isPixelated='+qIsPixelated+'&isSquare='+qIsSquare;
 
-
-      console.log(apiURL)
-    fetchGet(apiURL).then(data=>setImage(data['src']));
+    fetchGet(apiCall).then(data => {
+      setImageSrc(data['src']);
+      var img = document.getElementById('image-target');
+      img.src = imageHost+data['src'];
+    });
   };
 
   return (
@@ -250,10 +211,10 @@ export default function App() {
         </div>
       </div>
       <div className="submit-section">
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getUneditedImage()}>Get Image</div>
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getSquareImage()}>Crop Image</div>
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getPixelatedImage()}>Pixelate Image</div>
-        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getDefaultEditedImage()}>Edit Image</div>
+        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage()}>Get Image</div>
+        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage('square')}>Crop Image</div>
+        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage('pixelate')}>Pixelate Image</div>
+        <div className={"submit-button "+(isURLValid?'':'disabled')} onClick={()=>getImage('edited')}>Edit Image</div>
       </div>
       <div className="bottom-section">
         <div className="title-section">
