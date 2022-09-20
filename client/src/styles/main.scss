@@ -225,62 +225,10 @@ html{
             }
           }
 
-          .link-section{
+          .link-section-outer{
             display: flex;
             justify-content: space-between;
 
-            .link-list-container{
-              width: calc(50% - 50px);
-
-              h3{
-                margin-bottom: 20px;;
-              }
-
-              .link-list{
-                height:400px;
-                overflow-y:auto;
-                display: flex;
-                flex-direction: column;
-  
-                .button{
-                  @include button();
-
-                  &.link-button{
-                    padding:0 30px 0 0;
-                    height:50px;
-                    margin-bottom: 10px;
-                    margin-right: 10px;
-                    max-width: 100%;
-
-                    img{
-                      width:30px;
-                      height:30px;
-                      object-fit: cover;
-                      margin:10px 30px 10px 10px;
-                      border-radius: 3px;
-                    }
-
-                    p{
-                      text-overflow: ellipsis;
-                      overflow: hidden;
-                      white-space: nowrap;
-                    }
-                  }
-                }
-
-                &.recent{
-                  flex-direction: column-reverse;
-
-                  .button{
-                    &.link-button{
-                      &:first-child{
-                        margin-bottom:auto;
-                      }
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }

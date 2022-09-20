@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 import PreviewSection from "./components/comp-preview-section";
+import LinkSection from "./components/comp-link-section";
 
 import './styles/main.scss';
 
@@ -197,19 +198,9 @@ export default function App() {
             <h2>Links</h2>
             <p>Select an image link below to fill the url input in the form above</p>
           </div>
-          <div className="link-section">
-            <div className="link-list-container">
-              <h3>Recent Image Links</h3>
-              <div className="link-list recent">
-                {recentURLs.map((url,i)=><div key={i} className='button link-button' onClick={()=>setImageURL(url)}><img src={url} alt={'icon'}/><p>{url}</p></div>)}
-              </div>
-            </div>
-            <div className="link-list-container">
-              <h3>Sample Image Links</h3>
-              <div className="link-list">
-                {sampleURLs.map((url,i)=><div key={i} className='button link-button' onClick={()=>setImageURL(url)}><img src={url} alt={'icon'}/><p>{url}</p></div>)}
-              </div>
-            </div>
+          <div className="link-section-outer">
+            <LinkSection title='Recent Image Links' css='recent' clickLink={setImageURL} links={recentURLs}/>
+            <LinkSection title='Sample Image Links' clickLink={setImageURL} links={sampleURLs}/>
           </div>
         </div>
       </div>
