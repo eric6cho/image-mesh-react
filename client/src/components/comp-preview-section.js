@@ -41,7 +41,7 @@ export default function PreviewSection(props) {
             </div>
           )
         }
-        <div className="button reset" onClick={()=>props.reset()}>Reset Inputs</div>
+        <div className="button reset" onClick={()=>props.clickReset()}>Reset Inputs</div>
       </div>
     </div>;
 

@@ -1,8 +1,12 @@
 
 import React, { useState, useEffect } from "react";
 
+import TitleSection from "./components/comp-title-section";
+import ImageOutput from "./components/comp-image-output";
+
 import PreviewSection from "./components/comp-preview-section";
 import LinkSection from "./components/comp-link-section";
+import SubmitSection from "./components/comp-submit-section";
 
 import './styles/main.scss';
 
@@ -108,14 +112,13 @@ export default function App() {
     });
   };
 
+
+
   return (
     <div className="App">  
       <div className="main-section top">   
-        <div className="main-section-inner">      
-          <div className="title-section">
-            <h1>Image Mesh</h1>
-            <p>Used to edit photos and create pixel art</p>
-          </div>
+        <div className="main-section-inner">     
+          <TitleSection title='Image Mesh' subtitle='Used to edit photos and create pixel art'/> 
           <div className="image-section">
             <div className="form-section">
               <div className="form-header">
@@ -167,9 +170,7 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <div className={'image-target '+(!imageSrc?'no-image':'')}>
-              <img id='image-target' className={!imageSrc?'no-image':''} alt='edited'/>
-            </div>
+            <ImageOutput imageSrc={imageSrc}/>
           </div>
           <PreviewSection
             isURLValid={isURLValid}
@@ -181,23 +182,15 @@ export default function App() {
             pixelation={imagePixelation}
             isPixelated={imageIsPixelated}
             isSquare={imageIsSquare}
-            reset={setDefaultParams}
+            clickReset={setDefaultParams}
             setIsURLValid={setIsURLValid}
           /> 
-          <div className="submit-section">
-            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage()}>Get Image</div>
-            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage('square')}>Crop Image</div>
-            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage('pixelate')}>Pixelate Image</div>
-            <div className={"button submit "+(isURLValid?'':'disabled')} onClick={()=>getImage('edited')}>Edit Image</div>
-          </div>
+          <SubmitSection isURLValid={isURLValid} clickSubmit={getImage}/>
         </div>
       </div>
       <div className="main-section bottom">
         <div className="main-section-inner">
-          <div className="title-section">
-            <h2>Links</h2>
-            <p>Select an image link below to fill the url input in the form above</p>
-          </div>
+          <TitleSection title='Links' subtitle='Select an image link below to fill the url input in the form above' isSecondary={true}/> 
           <div className="link-section-outer">
             <LinkSection title='Recent Image Links' css='recent' clickLink={setImageURL} links={recentURLs}/>
             <LinkSection title='Sample Image Links' clickLink={setImageURL} links={sampleURLs}/>
