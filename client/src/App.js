@@ -22,6 +22,7 @@ export default function App() {
   const [imageSaturation,setImageSaturation] = useState(0);
   const [imageBrightness,setImageBrightness] = useState(0);
   const [imageContrast,setImageContrast] = useState(0);
+  const [imageGlitch,setImageGlitch] = useState(0);
   const [imagePixelation,setImagePixelation] = useState(0);
   const [imageIsPixelated,setImageIsPixelated] = useState(false);
   const [imageIsSquare,setImageIsSquare] = useState(false);
@@ -53,7 +54,8 @@ export default function App() {
     fetchGet(apiCall).then(data=>{      
       setImageHue(data['hue']);
       setImageSaturation(data['saturation']);
-      setImageContrast(data['contrast']*100);
+      setImageContrast(data['contrast']);
+      setImageGlitch(data['glitch']);
       setImageBrightness(data['brightness']);
       setImagePixelation(data['pixelation']);
       setImageIsPixelated(data['isPixelated']);
@@ -67,6 +69,7 @@ export default function App() {
     if(key==='Saturation')setImageSaturation(val);
     if(key==='Brightness')setImageBrightness(val);
     if(key==='Contrast')setImageContrast(val);
+    if(key==='Glitch')setImageGlitch(val);
     if(key==='Pixelation')setImagePixelation(val);
     if(key==='IsPixelated')setImageIsPixelated(val);
     if(key==='IsSquare')setImageIsSquare(val);
@@ -85,7 +88,8 @@ export default function App() {
     let qHue = encodeURIComponent(imageHue);
     let qSaturation = encodeURIComponent(imageSaturation);
     let qBrightness = encodeURIComponent(imageBrightness);
-    let qContrast = encodeURIComponent(imageContrast/100);
+    let qContrast = encodeURIComponent(imageContrast);
+    let qGlitch = encodeURIComponent(imageGlitch);
     let qPixelation = encodeURIComponent(imagePixelation);
     let qIsPixelated = encodeURIComponent(imageIsPixelated);
     let qIsSquare = encodeURIComponent(imageIsSquare);
@@ -93,7 +97,7 @@ export default function App() {
     let apiCall = 
       'api/get/image/?&method='+qMethod+'&url='+qURL+
       '&hue='+qHue+'&saturation='+qSaturation+'&brightness='+qBrightness+
-      '&contrast='+qContrast+'&pixelation='+qPixelation+
+      '&contrast='+qContrast+'&glitch='+qGlitch+'&pixelation='+qPixelation+
       '&isPixelated='+qIsPixelated+'&isSquare='+qIsSquare;
 
     fetchGet(apiCall).then(data => {
@@ -117,6 +121,7 @@ export default function App() {
               saturation={imageSaturation}
               brightness={imageBrightness}
               contrast={imageContrast}
+              glitch={imageGlitch}
               pixelation={imagePixelation}
               isPixelated={imageIsPixelated}
               isSquare={imageIsSquare}
@@ -131,6 +136,7 @@ export default function App() {
             saturation={imageSaturation}
             brightness={imageBrightness}
             contrast={imageContrast}
+            glitch={imageGlitch}
             pixelation={imagePixelation}
             isPixelated={imageIsPixelated}
             isSquare={imageIsSquare}
@@ -152,5 +158,3 @@ export default function App() {
     </div>
   );
 }
-
-// mobile styling, code cleanup, stylesheet cleanup, console cleanup

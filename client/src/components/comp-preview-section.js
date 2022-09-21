@@ -17,6 +17,7 @@ export default function PreviewSection(props) {
       {'icon':'tonality','val':props.saturation},
       {'icon':'light_mode','val':props.brightness},
       {'icon':'contrast','val':props.contrast},
+      {'icon':'grain','val':props.glitch},
       {'icon':'deblur','val':props.pixelation},
       {'icon':'blur_on','val':boolToStr(props.isPixelated)},
       {'icon':'crop_free','val':boolToStr(props.isSquare)},
@@ -37,7 +38,7 @@ export default function PreviewSection(props) {
           <div className="image-preview">
             <img id='image-preview' className={props.isURLValid?'':'no-image'} alt='preview' src={props.src}/>
           </div>
-          
+
           {
       
             !data?null:data.map((item,i)=>
