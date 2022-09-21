@@ -4,9 +4,8 @@ const request = require('request');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 8888;
-
-const IMAGEMESHHOST = 'http://localhost:5000'; // test server on local
-//const IMAGEMESHHOST = 'https://image-mesh-server.herokuapp.com'; // prod server on heroku
+//const IMAGEMESHHOST = 'http://localhost:5000'; // test server on local
+const IMAGEMESHHOST = 'https://image-mesh-server.herokuapp.com'; // prod server on heroku
 const IMAGEMESHAPI = IMAGEMESHHOST+'/image-mesh/api';
 const SERVERAPI = '/api';
 
