@@ -9,8 +9,6 @@ import './styles/main.scss';
 
 export default function App() {
 
-  const [imageHost,setImageHost] = useState('');
-
   const [sampleURLs,setSampleURLs] = useState([]); 
   const [recentURLs,setRecentURLs] = useState([]); 
 
@@ -29,15 +27,8 @@ export default function App() {
 
   useEffect(()=>{
     setDefaultParams();
-    setHost();
     setSampleLinks();
   },[]);
-
-  const setHost = () => {
-    let apiCall = '/api/get/image-host';
-
-    fetchGet(apiCall).then(data => setImageHost(data['url']));
-  };
 
   const setSampleLinks = () => {
     let apiCall = '/api/get/sample-links';
@@ -103,7 +94,7 @@ export default function App() {
     fetchGet(apiCall).then(data => {
       setImageSrc(data['src']);
       var img = document.getElementById('image-target');
-      img.src = imageHost+data['src'];
+      img.src = data['src'];
     });
   };
 
