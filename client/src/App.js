@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import TitleSection from "./components/comp-title-section";
 import ImageOutput from "./components/comp-image-output";
@@ -16,6 +18,9 @@ export default function App() {
   const [isURLValid,setIsURLValid] = useState(true);
 
   const [imageSrc,setImageSrc] = useState(null);
+  const [palette,setPalette] = useState(null);
+  const [gradient,setGradient] = useState(null);
+
   const [imageHue,setImageHue] = useState(0);
   const [imageSaturation,setImageSaturation] = useState(0);
   const [imageBrightness,setImageBrightness] = useState(0);
@@ -29,6 +34,9 @@ export default function App() {
     setDefaultParams();
     setSampleLinks();
   },[]);
+
+  const fetchGet = async (url) => new Promise (resolve =>
+    fetch(url).then(res => res.json()).then(data => resolve(data)));
 
   const setSampleLinks = () => {
     let apiCall = '/api/get/sample-links';
@@ -54,21 +62,6 @@ export default function App() {
     });
   };
 
-  const setInputVal = (key,val) => {
-    if(key==='URL')setImageURL(val);
-    if(key==='Hue')setImageHue(val);
-    if(key==='Saturation')setImageSaturation(val);
-    if(key==='Brightness')setImageBrightness(val);
-    if(key==='Contrast')setImageContrast(val);
-    if(key==='Glitch')setImageGlitch(val);
-    if(key==='Pixelation')setImagePixelation(val);
-    if(key==='IsPixelated')setImageIsPixelated(val);
-    if(key==='IsSquare')setImageIsSquare(val);
-  };
-
-  const fetchGet = async (url) => new Promise (resolve =>
-    fetch(url).then(res => res.json()).then(data => resolve(data)));
-
   const getImage = (method='') => {
     if(!isURLValid) return;
 
@@ -92,10 +85,25 @@ export default function App() {
       '&isPixelated='+qIsPixelated+'&isSquare='+qIsSquare;
 
     fetchGet(apiCall).then(data => {
-      setImageSrc(data['src']);
       var img = document.getElementById('image-target');
       img.src = data['src'];
+
+      setPalette(data['paletteStyles']);
+      setGradient(data['gradientStyle']);
+      setImageSrc(data['src']);
     });
+  };
+
+  const setInputVal = (key,val) => {
+    if(key==='URL')setImageURL(val);
+    if(key==='Hue')setImageHue(val);
+    if(key==='Saturation')setImageSaturation(val);
+    if(key==='Brightness')setImageBrightness(val);
+    if(key==='Contrast')setImageContrast(val);
+    if(key==='Glitch')setImageGlitch(val);
+    if(key==='Pixelation')setImagePixelation(val);
+    if(key==='IsPixelated')setImageIsPixelated(val);
+    if(key==='IsSquare')setImageIsSquare(val);
   };
 
   return (
@@ -118,7 +126,7 @@ export default function App() {
               isSquare={imageIsSquare}
               onChange={setInputVal}
               />
-            <ImageOutput imageSrc={imageSrc}/>
+            <ImageOutput imageSrc={imageSrc} palette={palette} gradient={gradient}/>
           </div>
           <PreviewSection
             isURLValid={isURLValid}

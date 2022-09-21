@@ -6,10 +6,10 @@ import '../styles/comp-submit-section.scss';
 export default function SubmitSection(props) {
   
   const [data] = useState([
-    {'val':'Get Image','image':''},
-    {'val':'Crop Image','image':'square'},
-    {'val':'Pixelate Image','image':'pixelate'},
-    {'val':'Edit Image','image':'edited'},
+    {'val':'Unedited Image','image':'square'},
+    {'val':'Edited Image','image':'edited'},
+    {'val':'Pixel Mesh','image':'pixelMesh'},
+    {'val':'Pixel Gradient','image':'pixelGradient'},
   ]);
 
   return (
