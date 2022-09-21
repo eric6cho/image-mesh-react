@@ -6,13 +6,13 @@ import '../styles/comp-submit-section.scss';
 export default function SubmitSection(props) {
   
   const [data] = useState([
-    {'val':'Unedited Image','image':'square'},
+    {'val':'Unedited Image','image':''},
     {'val':'Edited Image','image':'edited'},
     {'val':'Pixel Mesh','image':'pixelMesh'},
     {'val':'Pixel Gradient','image':'pixelGradient'},
   ]);
 
-  return (
+  let component =  
     <div className="submit-section">
       {
         data.map((item,i)=>
@@ -24,6 +24,7 @@ export default function SubmitSection(props) {
           </div>
         )
       }
-    </div>
-  );
+    </div>;
+    
+  return component;
 }

@@ -3,7 +3,8 @@ import Input from "./comp-input";
 import '../styles/comp-form-section.scss';
 
 export default function FormSection(props) {
-  return (
+
+  let component = 
     <div className='form-section'>
       <div className='form-header'>
         <h2>{props.title}</h2>
@@ -19,9 +20,9 @@ export default function FormSection(props) {
         <Input type='number' title='Pixelation' icon='deblur' id='Pixelation' min='0' max='100' value={props.pixelation} onChange={props.onChange}/>
         <div className='checkbox-section'>
           <Input type='checkbox' title='Pixelate' icon='blur_on' id='IsPixelated' value={props.isPixelated} onChange={props.onChange}/>
-          <Input type='checkbox' title='Crop' icon='crop_free' id='IsSquare' value={props.isSquare} onChange={props.onChange}/>
         </div>
       </div>
-    </div>
-  );
+    </div>;
+
+  return component;
 }

@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useState, useEffect } from "react";
 import TitleSection from "./components/comp-title-section";
 import ImageOutput from "./components/comp-image-output";
@@ -28,7 +27,6 @@ export default function App() {
   const [imageGlitch,setImageGlitch] = useState(0);
   const [imagePixelation,setImagePixelation] = useState(0);
   const [imageIsPixelated,setImageIsPixelated] = useState(false);
-  const [imageIsSquare,setImageIsSquare] = useState(false);
 
   useEffect(()=>{
     setDefaultParams();
@@ -47,19 +45,20 @@ export default function App() {
     });
   };
   
- const setDefaultParams = () => {
+  const updateParams = data => {
+    setImageHue(data['hue']);
+    setImageSaturation(data['saturation']);
+    setImageContrast(data['contrast']);
+    setImageGlitch(data['glitch']);
+    setImageBrightness(data['brightness']);
+    setImagePixelation(data['pixelation']);
+    setImageIsPixelated(data['isPixelated']);
+  }
+
+  const setDefaultParams = () => {
     let apiCall = '/api/get/params/';
 
-    fetchGet(apiCall).then(data=>{      
-      setImageHue(data['hue']);
-      setImageSaturation(data['saturation']);
-      setImageContrast(data['contrast']);
-      setImageGlitch(data['glitch']);
-      setImageBrightness(data['brightness']);
-      setImagePixelation(data['pixelation']);
-      setImageIsPixelated(data['isPixelated']);
-      setImageIsSquare(data['isSquare']);
-    });
+    fetchGet(apiCall).then(data => updateParams(data));
   };
 
   const getImage = (method='') => {
@@ -76,18 +75,18 @@ export default function App() {
     let qGlitch = encodeURIComponent(imageGlitch);
     let qPixelation = encodeURIComponent(imagePixelation);
     let qIsPixelated = encodeURIComponent(imageIsPixelated);
-    let qIsSquare = encodeURIComponent(imageIsSquare);
     
     let apiCall = 
       'api/get/image/?&method='+qMethod+'&url='+qURL+
       '&hue='+qHue+'&saturation='+qSaturation+'&brightness='+qBrightness+
       '&contrast='+qContrast+'&glitch='+qGlitch+'&pixelation='+qPixelation+
-      '&isPixelated='+qIsPixelated+'&isSquare='+qIsSquare;
+      '&isPixelated='+qIsPixelated;
 
     fetchGet(apiCall).then(data => {
       var img = document.getElementById('image-target');
       img.src = data['src'];
 
+      updateParams(data['params']);
       setPalette(data['paletteStyles']);
       setGradient(data['gradientStyle']);
       setImageSrc(data['src']);
@@ -103,10 +102,9 @@ export default function App() {
     if(key==='Glitch')setImageGlitch(val);
     if(key==='Pixelation')setImagePixelation(val);
     if(key==='IsPixelated')setImageIsPixelated(val);
-    if(key==='IsSquare')setImageIsSquare(val);
   };
 
-  return (
+  let component = 
     <div className="App">  
       <div className="main-section top">   
         <div className="main-section-inner">     
@@ -123,7 +121,6 @@ export default function App() {
               glitch={imageGlitch}
               pixelation={imagePixelation}
               isPixelated={imageIsPixelated}
-              isSquare={imageIsSquare}
               onChange={setInputVal}
               />
             <ImageOutput imageSrc={imageSrc} palette={palette} gradient={gradient}/>
@@ -138,7 +135,6 @@ export default function App() {
             glitch={imageGlitch}
             pixelation={imagePixelation}
             isPixelated={imageIsPixelated}
-            isSquare={imageIsSquare}
             clickReset={setDefaultParams}
             setIsURLValid={setIsURLValid}
           /> 
@@ -154,6 +150,7 @@ export default function App() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
+
+  return component;
 }

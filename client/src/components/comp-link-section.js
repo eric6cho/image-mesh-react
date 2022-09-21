@@ -1,11 +1,10 @@
 
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 import '../styles/comp-link-section.scss';
 
 export default function LinkSection(props) {
 
-  return (
+  let component = 
     <div className="link-section">
       <h3>{props.title}</h3>
       <div className={'link-list '+props.css}>
@@ -18,6 +17,7 @@ export default function LinkSection(props) {
           )
         }
       </div>
-    </div>
-  );
+    </div>;
+    
+  return component;
 }

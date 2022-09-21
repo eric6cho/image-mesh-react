@@ -19,28 +19,20 @@ export default function PreviewSection(props) {
       {'icon':'contrast','val':props.contrast},
       {'icon':'grain','val':props.glitch},
       {'icon':'deblur','val':props.pixelation},
-      {'icon':'blur_on','val':boolToStr(props.isPixelated)},
-      {'icon':'crop_free','val':boolToStr(props.isSquare)},
+      {'icon':'blur_on','val':props.isPixelated?'on':'off'},
     ];
 
     setData(data);
   },[props]);
 
-  const boolToStr = val => val?'on':'off';
-
   let component = 
     <div className="preview-section">
       <div className="preview-bar">        
-        
-
         <div className="scrollable">    
-
           <div className="image-preview">
             <img id='image-preview' className={props.isURLValid?'':'no-image'} alt='preview' src={props.src}/>
           </div>
-
           {
-      
             !data?null:data.map((item,i)=>
               <div key={i} className="text-preview">
                 <span className="material-icons">{item['icon']}</span>
@@ -49,11 +41,9 @@ export default function PreviewSection(props) {
             )
           }
         </div>
-
         <div className="button reset" onClick={()=>props.clickReset()}>  
           <span className="material-icons">refresh</span>
         </div>
-
       </div>
     </div>;
 

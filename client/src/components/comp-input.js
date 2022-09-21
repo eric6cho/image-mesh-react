@@ -1,7 +1,8 @@
 import React from "react";
 
 export default function Input(props) {
-  return (
+
+  let component = 
     <div className={'form-input '+props.type}>
       <div className='form-input-header'> 
         <span className="material-icons">{props.icon}</span>
@@ -33,6 +34,7 @@ export default function Input(props) {
           value={props.value}
           onChange={e=>props.onChange(props.id,e.target.value)}/>
       }
-    </div>
-  );
+    </div>;
+
+  return component;
 }

@@ -39,12 +39,12 @@ const getImageAPICall = q => {
   let qGlitch = encodeURIComponent(q.glitch);
   let qPixelation = encodeURIComponent(q.pixelation);
   let qIsPixelated = encodeURIComponent(q.isPixelated);
-  let qIsSquare = encodeURIComponent(q.isSquare);
+  
   let apiCall = 
     IMAGEMESHAPI+'/get/image'+method+'/?&url='+qURL+
     '&hue='+qHue+'&saturation='+qSaturation+'&brightness='+qBrightness+
     '&contrast='+qContrast+'&glitch='+qGlitch+'&pixelation='+qPixelation+
-    '&isPixelated='+qIsPixelated+'&isSquare='+qIsSquare;
+    '&isPixelated='+qIsPixelated;
 
   return apiCall;
 };
