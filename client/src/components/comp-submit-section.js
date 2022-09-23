@@ -7,7 +7,7 @@ export default function SubmitSection(props) {
   
   const [data] = useState([
     {'val':'Unedited Image','image':''},
-    {'val':'Edited Image','image':'edited'},
+    {'val':'Edited Image','image':'edit'},
     {'val':'Pixel Mesh','image':'pixelMesh'},
     {'val':'Pixel Gradient','image':'pixelGradient'},
   ]);
